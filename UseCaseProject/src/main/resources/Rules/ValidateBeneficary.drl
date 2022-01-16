@@ -1,0 +1,16 @@
+package KieRule;
+
+import com.example.demo.entity.Beneficiary;
+
+dialect "mvel";
+
+rule "Valid Beneficiary"
+salience 2
+when
+beneficiary : Beneficiary(walletStatus.equalsIgnoreCase("active") && (kycType.equalsIgnoreCase("Full") || kycType.equalsIgnoreCase("Small PPI")) && smallPPIMonths < 24)
+then
+System.out.println("Valid beneficiary to perform transactions")
+beneficiary.setBeneficiaryStatus("Valid")
+end;
+
+

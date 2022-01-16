@@ -1,0 +1,77 @@
+package KieRule;
+
+import com.demo.ProjectForTechDemo.entity.User;
+
+dialect "mvel";
+
+rule "Bank Account"
+salience 9
+when
+user : User(BankAccountExists == false);
+then
+System.out.println("Bank Account Rule bank account does not exists")
+user.setRuleValidated("Bank Account does not Exists ---------------Rule is valid after age validation");
+end;
+
+rule "Kyc"
+salience 8
+when
+user : User(Kyc == false);
+then
+System.out.println("KYC is  not done")
+user.setRuleValidated("User have kyc done evaluated after bank account check");
+end;
+
+rule "Age"
+salience 10
+when
+user: User(age < 18)
+then
+System.out.println("Age is below 18 bank account cannot be there")
+user.setRuleValidated("User age is below 18 years -----now checking if bank account exists or not");
+end;
+
+rule "Country"
+salience 7
+when
+user: User(country == "India")
+then
+System.out.println("Transactions can only be performed in India")
+user.setRuleValidated("Transactions can be performed after all the rules validated-- age , bank account, kyc");
+end;
+
+rule "Daily Transactions Limit"
+salience 6
+when
+user : User(dailyTransactions > 10);
+then
+System.out.println("Daily Transaction count Limit Exceeded")
+user.setRuleValidated("Daily Transaction count Limit Exceeded");
+end;
+
+rule "Daily Transactions Amount Limit"
+salience 5
+when
+user : User(dailyTransactionsAmount > 20000);
+then
+System.out.println("Daily Transactions Amount Limit Exceeded")
+user.setRuleValidated("Daily Transactions Amount Limit Exceeded");
+end;
+
+rule "Monthly Transactions Count Limit"
+salience 4
+when
+user : User(monthlyTransactions > 50);
+then
+System.out.println("Daily Transactions Count Limit Exceeded")
+user.setRuleValidated("Monthly Transaction count Limit Exceeded");
+end;
+
+rule "Monthly Transactions Amount Limit"
+salience 3
+when
+user : User(monthlyTransactionsAmount > 20000);
+then
+System.out.println("Monthly Transactions Amount Limit Exceeded")
+user.setRuleValidated("Monthly Transactions Amount Limit Exceeded");
+end;

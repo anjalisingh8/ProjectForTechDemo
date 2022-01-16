@@ -1,0 +1,13 @@
+package KieRule;
+
+import com.example.demo.entity.CustomerTransaction
+
+dialect "mvel"
+
+rule "Valid Transaction"
+when
+customerTransaction : CustomerTransaction(customer.customerStatus.equalsIgnoreCase("valid") && customer.accountBalance > 100 && transactions.transactionAmount <= customer.accountLimits )
+then
+System.out.println("Valid")
+customerTransaction.transactions.setTransactionStatus("Valid")
+end;

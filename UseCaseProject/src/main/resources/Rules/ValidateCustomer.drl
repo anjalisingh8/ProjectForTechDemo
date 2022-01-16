@@ -1,0 +1,16 @@
+package KieRule;
+
+import com.example.demo.entity.Customer
+
+dialect "mvel";
+
+rule "Valid Customer"
+salience 1
+when
+customer : Customer(walletStatus.equalsIgnoreCase("active") && kycType.equalsIgnoreCase("Full") && typeOfTransaction.equalsIgnoreCase("P2P"))
+then
+System.out.println("The customer is valid");
+customer.setCustomerStatus("valid")
+end;
+
+
